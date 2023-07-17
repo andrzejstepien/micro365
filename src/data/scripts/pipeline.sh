@@ -11,3 +11,7 @@ wiktionary-processed-array.json > wiktionary-grouped-objects.json
 
 jq --slurp '.' wiktionary-grouped-objects.json > wiktionary-grouped-objects-array.json
 
+#extract samples
+timestamp=$(date +%s)
+ jq '. | select(.word=="chocolate")' wiktionary-grouped-objects.json > ../samples/chocolate-$timestamp.json
+
