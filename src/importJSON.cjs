@@ -3,42 +3,42 @@ const StreamArray = require('stream-json/streamers/StreamArray');
 const fs = require('fs');
 const pipeline = fs.createReadStream('data/dp/wiktionary-grouped-objects-array.json').pipe(StreamArray.withParser());
 
-const sqlite3 = require("sqlite3").verbose()
-const db = new sqlite3.Database("data/database")
+const { AsyncDatabase } = require("promised-sqlite3")
+//const sqlite3 = require("sqlite3").verbose()
+let db = ""
+const importJson = async () =>{
+  db = await AsyncDatabase.open("data/database")
+  // pipeline.on('data', async (data) => {
+  //   const word = data.value.word
+  //   const pronunciation = data.value.pronunciation
+  //   const meanings = JSON.stringify(data.value.meanings)
+  //   if (word === "unpalatable") { console.log("test word found!!") }
+  //   await db.run('UPDATE prompts SET pronunciation=?, meanings=? WHERE word=?', [pronunciation,meanings,word])
+  // });
+  db = JSON.parse(fs.readFileSync('data/dp/wiktionary-grouped-objects-array.json'))
+  await db.forEach(async (data) => {
+    if(data.value.word != undefined){
+    const word = data.value.word
+    const pronunciation = data.value.pronunciation
+    const meanings = JSON.stringify(data.value.meanings)
+    await db.run('UPDATE prompts SET pronunciation=?, meanings=? WHERE word=?', [pronunciation,meanings,word])
+  }});
 
-
-pipeline.on('data', data => {
-  const term = data.value.word
-  if (term === "unpalatable") { console.log("test word found!!") }
-  const rawMeanings = JSON.stringify(makeObject(data.value))
-  db.run('UPDATE prompts SET object=? WHERE word=?', [object, term],
-    function (err) {
-      if (err) { return console.error(err.message) }
-      console.log(`word: ${term} -- ${this.changes} changes`)
-      console.log(`object: ${object}`)
-    })
-    console.log(`object: ${object}`)
-});
-
-db.close()
-
-
-const makeObject = (obj) => {
-  const meaningsArray = []
-
-
-
-for(let i=0; i<=obj.meanings.length-1;i++){
-  meaningsArray.push({
-    type: element.type,
-    definition: element.definition[0]
-  })
 }
- 
-  return {
-    word: obj.word,
-    pronunciation: obj.pronunciation,
-    meanings: meaningsArray
-  }
-}
+
+importJson().then(()=>{
+  //console.log(db)
+  db.close()
+})
+
+
+
+
+
+
+
+
+
+
+
 
