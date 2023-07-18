@@ -1,5 +1,6 @@
 node_modules/
 src/data/db-backups/
+src/data/samples
 src/data/processing/
 prod/
 *.log
