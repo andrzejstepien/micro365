@@ -4,7 +4,7 @@ cd ../processing
 jq -r '. | select((.pos=="noun") or (.pos=="verb") or (.pos=="adj") or (.pos=="adv")) | select((.word | test("[^a-z]"))|not) | {word: .word, type: .pos, pronunciation: .sounds[0].ipa, definitions: (try .senses|map({definition: .glosses|join(" "), form_of: (.form_of!=null)}))}' \
 wiktionary.json > wiktionary-p1.json
 
-jq --slurp '. | group_by(.word)[] | {word:.[0].word, pronunciation:.[0].pronunciation, meanings:([.[]|{type:.type, definitions:[try .definitions][]}] |group_by(.type)|[{type: .[][0].type, definitions:[.[][].definitions[]] }] )}' \
+jq --slurp '. | group_by(.word)[] | {word:.[0].word, pronunciation:.[0].pronunciation, meanings:([.[]|{type:.type, definitions:[try .definitions][]}] )}' \
 wiktionary-p1.json > wiktionary-p2.json
 
 jq --slurp '.' wiktionary-p2.json > wiktionary-p3.json
