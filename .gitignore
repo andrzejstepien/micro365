@@ -4,3 +4,4 @@ src/data/samples
 src/data/processing/
 prod/
 *.log
+src/data/unigram_freq.csv
