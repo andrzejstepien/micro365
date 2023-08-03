@@ -1,12 +1,5 @@
-import Knex from 'knex';
+import {db} from './db.mjs'
 import Spellchecker, { isMisspelled } from 'spellchecker'
-
-const db = Knex({
-  client: 'sqlite3', // or 'better-sqlite3'
-  connection: {
-    filename: "../database"
-  }
-})
 
 const getWords = async (db) => {
     return db
@@ -26,10 +19,8 @@ for (const element of words) {
     } catch (error) {
       console.error(error.message)
     } finally {
-      console.log()
     }
   }
-  console.dir(element.word)
 }
 
 try {
