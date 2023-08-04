@@ -2,6 +2,19 @@ import { db, getWords } from './db.mjs'
 import fs from 'fs'
 
 //const words = getWords(db)
+const allDefinitionsAreFormOf = (meanings) => {
+    let formsOf = 0
+    let totalDefs = 0
+    for (const meaning of meanings) {
+        for (const definition of meaning.definitions) {
+            totalDefs++
+            if (definition.form_of == true) {
+                formsOf++
+            }
+        }
+    }
+    return formsOf === totalDefs
+}
 const sampleMeanings =[
       {
         "type": "noun",
@@ -29,24 +42,20 @@ const sampleMeanings =[
         ]
       }
     ]
-  
-
-
-
-
-const allDefinitionsArePluralOrFormOf = (meanings) => {
-    let formsOf = 0
-    let totalDefs = 0
-    for (const obj of meanings) {
-        for (const definition of obj.definitions) {
-            totalDefs++
-            console.dir(definition)
-            if (definition.form_of == true) {
-                formsOf++
-            }
-        }
+const words = await getWords(db)
+const deleted = []
+for (const word of words) {
+    const res = 
+    await db('dictionary')
+    .select('meanings')
+    .where('word', word.word)
+    const meanings = JSON.parse(res[0].meanings)
+    if(allDefinitionsAreFormOf(meanings)){
+        deleted.push(word)
     }
-    return `Total defs: ${totalDefs}, formsOf: ${formsOf}, output: ${formsOf === totalDefs}`
 }
+console.log(`${deleted.length} entries deleted`)
+console.dir(deleted)
+db.destroy()
 
-console.log(allDefinitionsArePluralOrFormOf(sampleMeanings))
+
