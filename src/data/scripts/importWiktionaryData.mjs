@@ -16,7 +16,8 @@ for (const element of wiktionary) {
     await db('dictionary')
     .where('word', element.word)
     .update({
-        pronunciation: element.pronunciation,
+        //pronunciation import deprecated now that I have a better source
+        //pronunciation: element.pronunciation,
         meanings: JSON.stringify(element.meanings)
     }).then(res=>{
         if(res==1){console.log("added data for "+element.word)

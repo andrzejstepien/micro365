@@ -6,3 +6,9 @@ export const db = Knex({
       filename: "../database"
     }
   })
+
+ export const getWords = async (db) => {
+    return db
+    .select("word")
+    .from("dictionary")
+}

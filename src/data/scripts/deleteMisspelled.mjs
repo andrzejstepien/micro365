@@ -1,11 +1,7 @@
-import {db} from './db.mjs'
+import {db, getWords} from './db.mjs'
 import Spellchecker, { isMisspelled } from 'spellchecker'
 
-const getWords = async (db) => {
-    return db
-    .select("word")
-    .from("dictionary")
-}
+
 
 const words = await getWords(db)
 console.dir(words)
