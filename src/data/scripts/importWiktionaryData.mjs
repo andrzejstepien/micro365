@@ -16,7 +16,7 @@ for (const element of wiktionary) {
     await db('dictionary')
     .where('word', element.word)
     .update({
-        //pronunciation import deprecated now that I have a better source
+        //deprecated now that I have a better source of IPAs
         //pronunciation: element.pronunciation,
         meanings: JSON.stringify(element.meanings)
     }).then(res=>{
