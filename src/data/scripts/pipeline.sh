@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ../processing
 
-jq -r '. | select((.pos=="noun") or (.pos=="verb") or (.pos=="adj") or (.pos=="adv")) | select((.word | test("[^a-z]"))|not) | {word: .word, type: .pos, pronunciation: .sounds[0].ipa, definitions: (try .senses|map({definition: .glosses|join(" "), form_of: (.form_of!=null) }))}' \
+jq -r '. | select((.pos=="noun") or (.pos=="verb") or (.pos=="adj") or (.pos=="adv")) | select((.word | test("[^a-z]"))|not) | {word: .word, type: .pos, pronunciation: .sounds[0].ipa, definitions: (try .senses|map({definition: .glosses|join(" "), form_of: (.form_of!=null), topics:(try .topics) }))}' \
 wiktionary.json > wiktionary-p1.json
 
 jq --slurp '. | group_by(.word)[] | {word:.[0].word, pronunciation:.[0].pronunciation, meanings:[[([.[]|{type:.type, definitions:[try .definitions][]}] | to_entries[] | [{type: .value.type, index: .key, definitions: .value.definitions}][] )] | group_by(.type) | map({type: .[0].type, index: .[0].index, definitions: [.[].definitions|select(length > 0)[]]}) | sort_by(.index)[] | del(.index) ] }' \
