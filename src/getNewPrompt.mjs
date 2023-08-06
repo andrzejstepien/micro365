@@ -1,10 +1,6 @@
 import { db } from "./db.mjs"
-import { randomSkewNormal, randomSkewNormalTrimmed } from "./skewNormal.mjs"
 
-const maxCount = 30000000
-const minCount = 200000
-
-export default async function getNewPrompt() {
+export default async function getNewPrompt({minCount = 200000, maxCount = 30000000, rarity}) {
     const badWords = await db('bad_words')
         .select('word')
 
@@ -18,24 +14,32 @@ export default async function getNewPrompt() {
         .andWhere('count', '>', minCount)
         .andWhere('word', 'not in', badWords)
         .whereNotNull('pronunciation')
-        .orderBy('count')
-
+        .orderByRaw('count desc')
+    
+        const getBiasedRng = (min,max,bias,influence) => {
+            const random = Math.random() * (max - min) + min
+            const mix = Math.random() * influence
+            return random * (1-mix) + bias * mix
+        }
 
     const randomEntry = (array) => {
-        //const random = (randomSkewNormal(Math.random,0,2,0)/6)
-        const random = Math.random()
+        const random = getBiasedRng(0,1,rarity,1)
+        const mix = Math.random()
+        console.log("RANDOM: "+random)
         return array[
             parseInt(
                 array.length * random
             )
         ]
     }
+
     db.destroy()
-    return randomEntry(prompts)
+    return randomEntry(prompts).count
 }
 
 
 
-console.log(await getNewPrompt())
+console.log(await getNewPrompt({rarity:1}))
+
 
 
