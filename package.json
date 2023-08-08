@@ -9,7 +9,6 @@
   "author": "Andrzej Stepien",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "json-index": "^1.1.0",
     "knex": "^2.5.1",
     "spellchecker": "^3.7.1",
     "sqlite3": "^5.1.6"

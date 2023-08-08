@@ -1,5 +1,5 @@
 import {db, getWords} from './db.mjs'
-import Spellchecker, { isMisspelled } from 'spellchecker'
+import { isMisspelled } from 'spellchecker'
 
 
 

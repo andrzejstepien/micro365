@@ -1,6 +1,6 @@
 import { db } from "./db.mjs"
 
-export default async function getNewPrompt({minCount = 200000, maxCount = 30000000, rarity}) {
+export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias }) {
     const badWords = await db('bad_words')
         .select('word')
 
@@ -15,17 +15,17 @@ export default async function getNewPrompt({minCount = 200000, maxCount = 300000
         .andWhere('word', 'not in', badWords)
         .whereNotNull('pronunciation')
         .orderByRaw('count desc')
-    
-        const getBiasedRng = (min,max,bias,influence) => {
-            const random = Math.random() * (max - min) + min
-            const mix = Math.random() * influence
-            return random * (1-mix) + bias * mix
-        }
+
+    const getBiasedRng = (min, max, bias, influence) => {
+        const random = Math.random() * (max - min) + min
+        const mix = Math.random() * influence
+        return random * (1 - mix) + bias * mix
+    }
 
     const randomEntry = (array) => {
-        const random = getBiasedRng(0,1,rarity,1)
+        const random = getBiasedRng(0, 1, rarity, 1)
         const mix = Math.random()
-        console.log("RANDOM: "+random)
+        console.log("RANDOM: " + random)
         return array[
             parseInt(
                 array.length * random
@@ -34,12 +34,12 @@ export default async function getNewPrompt({minCount = 200000, maxCount = 300000
     }
 
     db.destroy()
-    return randomEntry(prompts).count
+    return randomEntry(prompts).word
 }
 
 
 
-console.log(await getNewPrompt({rarity:1}))
+console.log(await getNewPrompt({ rarityBias: 0.7 }))
 
 
 
