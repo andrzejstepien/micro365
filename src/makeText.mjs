@@ -1,4 +1,3 @@
-import getNewPrompt from './getNewPrompt.mjs'
 
 const sampleData = {
     word: 'malt',
@@ -11,34 +10,39 @@ const sampleData = {
 
 
 
-export default async function makeText(prompt){
+export default function makeText(prompt){
 const meanings = JSON.parse(prompt.meanings)
 const word = prompt.word
 const pronunciation = prompt.pronunciation
 
-let text = "Today's prompt is:\n**"+word+"**\n"
-+pronunciation+"\n\n"
+let text = "Today's #micro365 prompt is:\n$[x2 $[font.serif **"+word+"**]]\n"
++pronunciation+"\n"
 
 
-let meaningsText = ""
+let meaningsText = "<small>"
 const maxDefsPerMeaning = [3,1,1,0] //this array must have at least four entries to account for different word types
 let meaningsIterator = 0
 for (const meaning of meanings) {
-    meaningsText = meaningsText+meaning.type+":\n"
+    if(maxDefsPerMeaning[meaningsIterator]>0){
+        meaningsText = meaningsText+"**"+meaning.type+"**:\n"
+    }  
+    
     let definitionsIterator = 1
     for (const definition of meaning.definitions) {
         if(definitionsIterator<=maxDefsPerMeaning[meaningsIterator]){
-            meaningsText = meaningsText+definition.definition+"\n"
+            meaningsText = meaningsText+"- "+definition.definition+"\n"
         } else {
-            meaningsText=meaningsText+"\n"    
+            meaningsText=meaningsText  
             break
         }        
         definitionsIterator++
     }    
     meaningsIterator++
 }
-return text+meaningsText
+meaningsText = meaningsText+"</small>"
 
+let postScript = "#writing #microfiction"
+return text+meaningsText+postScript
 }
 
-console.log(await makeText(sampleData))
+//console.log(await makeText(sampleData))
