@@ -1,7 +1,17 @@
-import { db } from "./db.mjs"
-
+import getNewPrompt from "./getNewPrompt.mjs"
+import createNote from "./createNote.mjs"
+import makeToot from "./makeToot.mjs"
 const maxCount = 30000000
 const minCount = 200000
+
+
+const prompt = await getNewPrompt({minCount,maxCount,rarityBias:0.7})
+//console.dir(prompt)
+
+const toot = makeToot(prompt)
+//console.dir(toot)
+
+
 
 //CHECK BUFFER - 
     //IF EXISTS, POST NEXT BUFFERED PROMPT TO SOCIAL MEDIA
