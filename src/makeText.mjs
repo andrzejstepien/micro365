@@ -8,8 +8,6 @@ const sampleData = {
     scientific: 0
   }
 
-
-
 export default function makeText(prompt){
 const meanings = JSON.parse(prompt.meanings)
 const word = prompt.word
@@ -30,7 +28,7 @@ for (const meaning of meanings) {
     let definitionsIterator = 1
     for (const definition of meaning.definitions) {
         if(definitionsIterator<=maxDefsPerMeaning[meaningsIterator]){
-            meaningsText = meaningsText+"- "+definition.definition+"\n"
+            meaningsText = meaningsText+"- "+removeUrls(definition.definition)+"\n"
         } else {
             meaningsText=meaningsText  
             break
@@ -45,4 +43,7 @@ let postScript = "#writing #microfiction #vss #"+word
 return text+meaningsText+postScript
 }
 
-//console.log(await makeText(sampleData))
+function removeUrls(string){
+    return string.replace(/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g, '')
+}
+console.log(removeUrls("Hello there newgrounds.com www.poopants.org this is http://localhost:80 working as intended."))
