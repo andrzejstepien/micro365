@@ -2,6 +2,12 @@ import { db, getWords } from './db.mjs'
 
 const words = await getWords(db)
 const allDefinitionsAreScientific = (meanings) => {
+    const scientificTags = [
+        "sciences",
+        "mathematics",
+        "natural-sciences",
+        "algebra"
+    ]
     let scientific = 0
     let totalDefs = 0
     for (const meaning of meanings) {
@@ -9,7 +15,7 @@ const allDefinitionsAreScientific = (meanings) => {
             totalDefs++
             if (definition.topics) {
                 for (const topic of definition.topics) {
-                    if (topic === 'sciences') {
+                    if (scientificTags.includes(topic)) {
                         scientific++
                         break
                     }
