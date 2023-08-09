@@ -6,7 +6,8 @@ const allDefinitionsAreScientific = (meanings) => {
         "sciences",
         "mathematics",
         "natural-sciences",
-        "algebra"
+        "algebra",
+        "medicine"
     ]
     let scientific = 0
     let totalDefs = 0
