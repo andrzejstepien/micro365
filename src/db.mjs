@@ -4,7 +4,8 @@ export const db = Knex({
     client: 'sqlite3', // or 'better-sqlite3'
     connection: {
       filename: "data/database"
-    }
+    },
+    useNullAsDefault: true
   })
 
  export const getWords = async (db) => {
