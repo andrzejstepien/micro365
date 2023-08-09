@@ -12,9 +12,3 @@ export const db = Knex({
     .select("word")
     .from("dictionary")
 }
-
-export const getBadWords = async (db) => {
-  return db
-    .select("word")
-    .from("bad_words")
-}
