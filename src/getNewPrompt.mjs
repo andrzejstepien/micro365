@@ -1,7 +1,11 @@
 import { db } from "./db.mjs"
 
-const badWords = db('bad_words')
-        .select('word')
+const blocklist = db.union([
+    db('bad_words').select('word'),
+    db('medical_procedures').select('name'),
+    db('diseases').select('name')
+])
+
 
 export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
     
@@ -14,7 +18,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
         })
         .andWhere('count', '<', maxCount)
         .andWhere('count', '>', minCount)
-        .andWhere('word', 'not in', badWords)
+        .andWhere('word', 'not in', blocklist)
         .whereNotNull('pronunciation')
         .orderByRaw('count desc')
 
@@ -42,5 +46,5 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
 
 //console.dir(await getNewPrompt({}))
 
-
+console.log(await blocklist)
 
