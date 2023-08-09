@@ -15,7 +15,7 @@ const meanings = JSON.parse(prompt.meanings)
 const word = prompt.word
 const pronunciation = prompt.pronunciation
 
-let text = "Today's #micro365 prompt is:\n$[x2 $[font.serif **"+word+"**]]\n"
+let text = "Today's #micro365 prompt is:\n<small><small><small># </small></small></small>$[x2 $[font.serif **"+word+"**]]\n"
 +pronunciation+"\n"
 
 
@@ -41,7 +41,7 @@ for (const meaning of meanings) {
 }
 meaningsText = meaningsText+"</small>"
 
-let postScript = "#writing #microfiction"
+let postScript = "#writing #microfiction #vss"
 return text+meaningsText+postScript
 }
 
