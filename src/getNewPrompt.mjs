@@ -3,7 +3,8 @@ import { db } from "./db.mjs"
 const blocklist = db.union([
     db('bad_words').select('word'),
     db('medical_procedures').select('name'),
-    db('diseases').select('name')
+    db('diseases').select('name'),
+    db('medical_dictionary').select('word')
 ])
 
 
@@ -19,6 +20,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
         .andWhere('count', '<', maxCount)
         .andWhere('count', '>', minCount)
         .andWhere('word', 'not in', blocklist)
+        .whereRaw('length(word) > 3')
         .whereNotNull('pronunciation')
         .orderByRaw('count desc')
 
