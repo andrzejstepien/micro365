@@ -1,8 +1,10 @@
 import { db } from "./db.mjs"
 
-export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
-    const badWords = await db('bad_words')
+const badWords = db('bad_words')
         .select('word')
+
+export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
+    
 
     const prompts = await db('dictionary')
         .select('*')
@@ -38,7 +40,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
 
 
 
-//console.log(await getNewPrompt({}))
+console.dir(await getNewPrompt({}))
 
 
 
