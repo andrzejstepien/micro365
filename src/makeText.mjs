@@ -41,7 +41,7 @@ for (const meaning of meanings) {
 }
 meaningsText = meaningsText+"</small>"
 
-let postScript = "#writing #microfiction #vss"
+let postScript = "#writing #microfiction #vss #"+word
 return text+meaningsText+postScript
 }
 
