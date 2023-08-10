@@ -1,5 +1,5 @@
 import { db } from "./db.mjs"
-
+import { isoDate } from "./utilities.mjs"
 const sampleRes = {
     createdNote: {
       id: '9i8urek4jtzhmtuh',
@@ -49,7 +49,7 @@ export default async function insertPublished(res, word){
     .insert({
         id: res.createdNote.id,
         word,
-        date: new Date(sampleRes.createdNote.createdAt).toISOString().split('T')[0]
+        date: isoDate(sampleRes.createdNote.createdAt)
     })
     .then(res => {
         return res
@@ -58,5 +58,4 @@ export default async function insertPublished(res, word){
         return error
     })  
 }
-
 //console.log(await insertPublished(sampleRes,'marmalade'))
