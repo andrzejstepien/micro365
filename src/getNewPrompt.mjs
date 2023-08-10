@@ -40,7 +40,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
         ]
     }
 
-    await db.destroy()
+    //await db.destroy()
     return await randomEntry(prompts)
 }
 
