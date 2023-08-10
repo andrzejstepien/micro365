@@ -1,16 +1,10 @@
-import getNewPrompt from "./getNewPrompt.mjs"
-import createNote from "./createNote.mjs"
-import makeText from "./makeText.mjs"
+import daily from "./daily.mjs"
 const maxCount = 30000000
 const minCount = 200000
 
 
 const spam = async ()=>{
-    await createNote(
-        makeText(
-            await getNewPrompt({maxCount,minCount,rarityBias:0.7})
-        )
-    )
+    await daily()
 }
 
 
