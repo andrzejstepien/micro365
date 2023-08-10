@@ -55,7 +55,7 @@ export default async function insertPublished(res, word){
         return res
     })
     .catch(error => {
-        return error.message
+        return error
     })  
 }
 
