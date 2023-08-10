@@ -11,7 +11,7 @@ setGlobalDispatcher(agent)
 
 
 export default async function createNote(text) {
-  const url = 'https://localhost:80/api/notes/create'
+  const url = 'http://localhost:3000/api/notes/create'
   const params = {
     text: text,
   }
