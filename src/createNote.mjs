@@ -30,7 +30,7 @@ export default async function createNote(text) {
       return res.json()
     })
     .then(data => {
-      return
+      return data
     })
 }
 

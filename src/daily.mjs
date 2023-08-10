@@ -10,7 +10,11 @@ const prompt = await getNewPrompt({minCount,maxCount,rarityBias:0.7})
 
 const text = makeText(prompt)
 
-createNote(text)
+console.dir(await createNote(text))
+
+
+
+
 
 //CHECK BUFFER - 
     //IF EXISTS, POST NEXT BUFFERED PROMPT TO SOCIAL MEDIA

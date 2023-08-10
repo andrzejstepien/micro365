@@ -44,7 +44,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
 
 
 
-//console.dir(await getNewPrompt({}))
+console.dir(await getNewPrompt({}))
 
 //console.log(await blocklist)
 
