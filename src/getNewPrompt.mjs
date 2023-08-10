@@ -2,7 +2,8 @@ import { db } from "./db.mjs"
 
 const blocklist = db.union([
     db('bad_words').select('word'),
-    db('medical_dictionary').select('word')
+    db('medical_dictionary').select('word'),
+    db('published').select('word')
 ])
 
 
