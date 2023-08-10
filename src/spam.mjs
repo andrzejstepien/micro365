@@ -12,7 +12,7 @@ const spam = async ()=>{
 const delay = ms => new Promise(res=>{setTimeout(res,ms)})
 
 do{
-await delay(3000)
+await delay(1000)
 await spam()
 console.log("SPAM!")
 }while(true)
