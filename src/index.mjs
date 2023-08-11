@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import logger from "./logger.mjs";
 import pinoHTTP from 'pino-http'
+import start from "./start.mjs";
 const app = express()
 const port = 4000
 app.use(bodyParser.json())
@@ -11,20 +12,19 @@ app.use(
     })
   )
 app.post('/api', (req,res) => {
-    console.log("webhook received:")
-    console.dir(req.body.body.note.text)
+    logger.info("webhook received:",req.body.body.note.text)
     res.sendStatus(200)
 })
 
 app.listen(port, () => {
-    console.log(`listening on port ${port}`)
+    logger.trace(`listening on port ${port}`)
 })
 
 process.on('uncaughtException', (err) => {
     // log the exception
     logger.fatal(err, 'uncaught exception detected');
     // shutdown the server gracefully
-    server.close(() => {
+    app.close(() => {
       process.exit(1); // then exit
     });
   
@@ -35,3 +35,5 @@ process.on('uncaughtException', (err) => {
     }, 1000).unref()
     process.exit(1);
   });
+
+start()

@@ -16,6 +16,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "node-cron": "^3.0.2",
     "pino": "^8.15.0",
     "pino-http": "^8.4.0",
     "promised-sqlite3": "^2.1.0",
