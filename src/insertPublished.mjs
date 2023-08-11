@@ -57,8 +57,6 @@ export default async function insertPublished(res, word){
     .then(res => {
         return res
     })
-    .catch(error => {
-        return error
-    })  
+    .catch(error => {throw error})  
 }
 //console.log(await insertPublished(sampleRes,'marmalade'))

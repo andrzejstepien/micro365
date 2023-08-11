@@ -7,7 +7,8 @@ export default async function todaysPromptAlreadyPublished() {
     const number = await db('published')
         .count('* as count')
         .where('date', isoDate())
+        .catch(error=>{throw error})
     return number[0].count > 0
 }
 
-console.log(await todaysPromptAlreadyPublished())
+//console.log(await todaysPromptAlreadyPublished())

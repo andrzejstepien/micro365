@@ -15,5 +15,5 @@ const delay = ms => new Promise(res=>{setTimeout(res,ms)})
 do{
 await delay(1000)
 await spam()
-logger.info("Spam!")
+logger.trace("Spam!")
 }while(true)

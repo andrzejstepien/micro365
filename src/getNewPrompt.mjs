@@ -23,9 +23,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
         .whereRaw('length(word) > 3')
         .whereNotNull('pronunciation')
         .orderByRaw('count desc')
-        .catch(error=>{return error})
-
-        if(prompts instanceof Error){return prompts}
+        .catch(error=>{throw error})
 
     const getBiasedRng = (min, max, bias, influence) => {
         const random = Math.random() * (max - min) + min

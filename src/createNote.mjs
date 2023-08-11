@@ -35,6 +35,9 @@ export default async function createNote(text) {
     .then(data => {
       return data
     })
+    .catch(error =>{
+      throw error
+    })
 }
 
 
