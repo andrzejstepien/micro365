@@ -1,4 +1,5 @@
 import { db } from "./db.mjs"
+import logger from "./logger.mjs"
 
 const blocklist = db.union([
     db('bad_words').select('word'),
@@ -8,8 +9,8 @@ const blocklist = db.union([
 
 
 export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
-    
-
+    const childLogger = logger.child({minCount,maxCount,rarityBias})
+    childLogger.trace("getNewPrompt called")
     const prompts = await db('dictionary')
         .select('*')
         .where({

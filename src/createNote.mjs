@@ -1,4 +1,5 @@
 import { apiKey } from './API.mjs'
+import logger from './logger.mjs'
 //JUST FOR USE IN LOCAL ENVIRONMENT
 import { Agent, setGlobalDispatcher } from 'undici'
 const agent = new Agent({
@@ -11,6 +12,8 @@ setGlobalDispatcher(agent)
 
 
 export default async function createNote(text) {
+  const childLogger = logger.child({text})
+  childLogger.trace("createNote called")
   const url = 'http://localhost:3000/api/notes/create'
   const params = {
     text: text,

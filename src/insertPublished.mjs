@@ -1,5 +1,6 @@
 import { db } from "./db.mjs"
 import { isoDate } from "./utilities.mjs"
+import logger from "./logger.mjs"
 const sampleRes = {
     createdNote: {
       id: '9i8urek4jtzhmtuh',
@@ -45,6 +46,8 @@ const sampleRes = {
   }
 
 export default async function insertPublished(res, word){
+  const childLogger = logger.child({res,word})
+  childLogger.trace("insertPublished called")
     return db('published')
     .insert({
         id: res.createdNote.id,

@@ -1,4 +1,6 @@
 
+import logger from "./logger.mjs"
+
 const sampleData = {
     word: 'malt',
     count: 1520084,
@@ -9,6 +11,8 @@ const sampleData = {
   }
 
 export default function makeText(prompt){
+    const childLogger = logger.child({prompt})
+    childLogger.trace("makeText called")
 const meanings = JSON.parse(prompt.meanings)
 const word = prompt.word
 const pronunciation = prompt.pronunciation
