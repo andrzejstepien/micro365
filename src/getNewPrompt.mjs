@@ -1,30 +1,13 @@
-import { db } from "./db.mjs"
 import logger from "./logger.mjs"
+import getAcceptablePrompts from "./getAcceptablePrompts.mjs"
 
-const blocklist = db.union([
-    db('bad_words').select('word'),
-    db('medical_dictionary').select('word'),
-    db('published').select('word')
-])
+
 
 
 export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
     const childLogger = logger.child({minCount,maxCount,rarityBias})
     childLogger.trace("getNewPrompt called")
-    const prompts = await db('dictionary')
-        .select('*')
-        .where({
-            derivative: 0,
-            scientific: 0,
-        })
-        .andWhere('count', '<', maxCount)
-        .andWhere('count', '>', minCount)
-        .andWhere('word', 'not in', blocklist)
-        .whereRaw('length(word) > 3')
-        .whereNotNull('pronunciation')
-        .orderByRaw('count desc')
-        .catch(error=>{throw error})
-
+    
     const getBiasedRng = (min, max, bias, influence) => {
         const random = Math.random() * (max - min) + min
         const mix = Math.random() * influence
@@ -41,15 +24,11 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
         ]
     }
 
-    //await db.destroy()
-    return await randomEntry(prompts)
+    return randomEntry(await getAcceptablePrompts())
 }
 
 
 
 
 
-//console.dir(await getNewPrompt({}))
-
-//console.log(await blocklist)
 
