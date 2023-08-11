@@ -1,9 +1,6 @@
 import logger from "./logger.mjs"
 import getAcceptablePrompts from "./getAcceptablePrompts.mjs"
 
-
-
-
 export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
     const childLogger = logger.child({minCount,maxCount,rarityBias})
     childLogger.trace("getNewPrompt called")
