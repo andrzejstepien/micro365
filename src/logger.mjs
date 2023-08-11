@@ -4,10 +4,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const fileTransport = pino.transport({
-//     target: 'pino/file',
-//     options: { destination: `${__dirname}/app.log` },
-//   });
+const fileTransport = pino.transport({
+    target: 'pino/file',
+    options: { destination: `${__dirname}/app.log` },
+  });
 
 export default pino({
     level: process.env.PINO_LOG_LEVEL || 'trace',
@@ -17,4 +17,6 @@ export default pino({
         },
     },
     timestamp: pino.stdTimeFunctions.isoTime,
-})
+},
+fileTransport
+)
