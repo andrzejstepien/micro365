@@ -14,7 +14,7 @@ setGlobalDispatcher(agent)
 export default async function createNote(text) {
   const childLogger = logger.child({text})
   childLogger.trace("createNote called")
-  const url = 'http://localhost:3000/api/notes/create'
+  const url = 'https://localhost:80/api/notes/create'
   const params = {
     text: text,
   }
@@ -33,6 +33,7 @@ export default async function createNote(text) {
       return res.json()
     })
     .then(data => {
+      childLogger.trace(data, "note created successfully")
       return data
     })
     .catch(error =>{

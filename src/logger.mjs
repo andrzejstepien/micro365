@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 //   });
 
 export default pino({
-    level: process.env.PINO_LOG_LEVEL || 'info',
+    level: process.env.PINO_LOG_LEVEL || 'trace',
     formatters: {
         level: (label) => {
             return { severity: label.toUpperCase() };
