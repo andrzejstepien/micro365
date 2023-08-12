@@ -1,10 +1,10 @@
 node_modules/
-src/data/db-backups/
-src/data/samples/
-src/data/processing/
+data/db-backups/
+data/samples/
+data/processing/
 prod/
 *.log
-src/data/unigram_freq.csv
-src/data/database
-src/data/database-backup-IPAs-added
+data/unigram_freq.csv
+data/database
+data/database-backup-IPAs-added
 API.mjs
