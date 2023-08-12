@@ -3,7 +3,7 @@ import createNote from "./firefish-calls/createNote.mjs"
 import makeText from "./makeText.mjs"
 import insertPublished from "./database-calls/insertPublished.mjs"
 import logger from "./logger.mjs"
-import {todaysPromptAlreadyPublished, tableIsNotEmpty, getPromptFromBuffer} from "./database-calls/db.mjs"
+import {deleteFromBuffer, todaysPromptAlreadyPublished, tableIsNotEmpty, getPromptFromBuffer} from "./database-calls/db.mjs"
 
 
 export default  async function checkAndPublish () {
@@ -19,7 +19,7 @@ export default  async function checkAndPublish () {
                     const note = await createNote(text)
                     logger.trace("createNote successful!")
                     try {
-                        //DELETE FROM BUFFER
+                        await deleteFromBuffer(prompt.word)
                         await insertPublished(note, prompt.word)
                         logger.trace("insertPublished successful!")
                     } catch (error) {

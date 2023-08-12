@@ -98,3 +98,15 @@ export const getPromptFromBuffer = async () => {
   }
 }
 
+export const deleteFromBuffer = async (word) => {
+  logger.trace(`deleteFromBuffer called for word ${word}!`)
+  try {
+    return db('buffer')
+    .where('word', word)
+    .del()
+  } catch (error) {
+    logger.error("deleteFromBuffer failed!")
+  }
+}
+
+console.dir(await deleteFromBuffer('incapacity'))
