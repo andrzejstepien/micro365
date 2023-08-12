@@ -11,11 +11,11 @@ export const db = Knex({
 })
 
 export const getWords = async () => {
-  const childLogger = logger.child({ db })
-  childLogger.trace("getWords called")
+  logger.trace("getWords called")
   return db
     .select("word")
     .from("dictionary")
+    .catch(error=>{throw error})
 }
 
 export const valueExistsInTable = async (table,column,value) =>{
