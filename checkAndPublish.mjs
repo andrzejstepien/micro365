@@ -12,12 +12,15 @@ export default  async function checkAndPublish () {
     if(!await todaysPromptAlreadyPublished()){
         try {
             const prompt = await getNewPrompt()
+            logger.trace("getNewPrompt successful!")
             try {
                 const text = makeText(prompt)
                 try {
                     const note = await createNote(text)
+                    logger.trace("createNote successful!")
                     try {
                         await insertPublished(note, prompt.word)
+                        logger.trace("insertPublished successful!")
                     } catch (error) {
                         logger.error(error, 'insertPublished failed!')
                     }
