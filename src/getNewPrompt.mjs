@@ -1,9 +1,9 @@
 import logger from "./logger.mjs"
 import getAcceptablePrompts from "./getAcceptablePrompts.mjs"
+import config from "./config.mjs"
 
-export default async function getNewPrompt({ minCount = 200000, maxCount = 30000000, rarityBias = 0.5 }) {
-    const childLogger = logger.child({minCount,maxCount,rarityBias})
-    childLogger.trace("getNewPrompt called")
+export default async function getNewPrompt() {
+    logger.trace("getNewPrompt called")
     
     const getBiasedRng = (min, max, bias, influence) => {
         const random = Math.random() * (max - min) + min
@@ -12,7 +12,7 @@ export default async function getNewPrompt({ minCount = 200000, maxCount = 30000
     }
 
     const randomEntry = (array) => {
-        const random = getBiasedRng(0, 1, rarityBias, 1)
+        const random = getBiasedRng(0, 1, config.rarityBias, 1)
         const mix = Math.random()
         return array[
             parseInt(

@@ -4,19 +4,25 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const fileTransport = pino.transport({
-    target: 'pino/file',
-    options: { destination: `${__dirname}/app.log` },
-  });
-
-export default pino({
-    level: process.env.PINO_LOG_LEVEL || 'trace',
-    formatters: {
+// const transport = pino.transport({
+//     targets: [{
+//         level: 'trace',
+//         target: 'pino-pretty' // must be installed separately
+//     }, {
+//         level: 'trace',
+//         target: 'pino/file',
+//         options: { destination: `${__dirname}/app.log` }
+//     }]
+// })
+export default pino(
+    {
+      level: 'trace',
+      formatters: {
         level: (label) => {
-            return { severity: label.toUpperCase() };
+          return { level: label.toUpperCase() };
         },
+      },
+      timestamp: pino.stdTimeFunctions.isoTime,
     },
-    timestamp: pino.stdTimeFunctions.isoTime,
-},
-fileTransport
-)
+    //pino.destination(`${__dirname}/app.log`)
+  );

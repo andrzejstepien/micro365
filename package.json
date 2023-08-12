@@ -19,6 +19,7 @@
     "node-cron": "^3.0.2",
     "pino": "^8.15.0",
     "pino-http": "^8.4.0",
+    "pino-pretty": "^10.2.0",
     "promised-sqlite3": "^2.1.0",
     "undici": "^5.23.0"
   }

@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import logger from "./logger.mjs";
 import pinoHTTP from 'pino-http'
 import start from "./start.mjs";
+import receiveMention from "./social-interaction/receiveMention.mjs";
 const app = express()
 const port = 4000
 app.use(bodyParser.json())
@@ -12,6 +13,7 @@ app.use(
     })
   )
 app.post('/api', (req,res) => {
+    receiveMention(req.body)
     logger.info("webhook received:",req.body.body.note.text)
     res.sendStatus(200)
 })

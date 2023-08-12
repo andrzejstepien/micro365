@@ -4,16 +4,14 @@ import makeText from "./makeText.mjs"
 import insertPublished from "./insertPublished.mjs"
 import logger from "./logger.mjs"
 import todaysPromptAlreadyPublished from "./todaysPromptAlreadyPublished.mjs"
-const maxCount = 30000000
-const minCount = 200000
-const spamMode = false
+
 
 export default  async function checkAndPublish () {
     logger.trace("checkAndPublish called")
     logger.trace(todaysPromptAlreadyPublished())
     if(!await todaysPromptAlreadyPublished()){
         try {
-            const prompt = await getNewPrompt({ minCount, maxCount, rarityBias: 0.7 })
+            const prompt = await getNewPrompt()
             try {
                 const text = makeText(prompt)
                 try {

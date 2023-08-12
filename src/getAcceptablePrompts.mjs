@@ -1,5 +1,6 @@
 import logger from "./logger.mjs"
 import { db } from "./db.mjs"
+import config from "./config.mjs"
 
 const blocklist = db.union([
     db('bad_words').select('word'),
@@ -8,14 +9,15 @@ const blocklist = db.union([
 ])
 
 export default async () => {
+    logger.trace("getAcceptablePrompt called")
     return db('dictionary')
         .select('*')
         .where({
             derivative: 0,
             scientific: 0,
         })
-        .andWhere('count', '<', maxCount)
-        .andWhere('count', '>', minCount)
+        .andWhere('count', '<', config.maxCount)
+        .andWhere('count', '>', config.minCount)
         .andWhere('word', 'not in', blocklist)
         .whereRaw('length(word) > 3')
         .whereNotNull('pronunciation')
