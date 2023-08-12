@@ -10,7 +10,8 @@ const blocklist = db.union([
 
 export default async () => {
     logger.trace("getAcceptablePrompt called")
-    return db('dictionary')
+    try {
+        return db('dictionary')
         .select('*')
         .where({
             derivative: 0,
@@ -22,5 +23,8 @@ export default async () => {
         .whereRaw('length(word) > 3')
         .whereNotNull('pronunciation')
         .orderByRaw('count desc')
-        .catch(error=>{throw error})
+    } catch (error) {
+        logger.error("getAcceptablePrompts failed!")
+        throw error
+    }
 }

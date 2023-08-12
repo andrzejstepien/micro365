@@ -15,22 +15,27 @@ export const getWords = async () => {
   return db
     .select("word")
     .from("dictionary")
-    .catch(error=>{throw error})
+    .catch(error => { throw error })
 }
 
-export const valueExistsInTable = async (table,column,value) =>{
-  const number = await db(table)
-    .count('* as count')
-    .where(column, value)
-    .catch(error => { throw error })
-  return number[0].count > 0
+export const valueExistsInTable = async (table, column, value) => {
+  try {
+    const number = await db(table)
+      .count('* as count')
+      .where(column, value)
+      return number[0].count > 0
+  } catch (error) {
+    logger.error("valueExistsInTable failed!")
+    throw error
+  }
+  
 }
 
 
 export const todaysPromptAlreadyPublished = async () => {
-  return valueExistsInTable('published','date',isoDate())
+  return valueExistsInTable('published', 'date', isoDate())
 }
 
 export const wordIsAlreadyInBuffer = async (word) => {
-  return valueExistsInTable('buffer','word',word)
+  return valueExistsInTable('buffer', 'word', word)
 }
