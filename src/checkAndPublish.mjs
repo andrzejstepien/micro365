@@ -1,9 +1,9 @@
 import getNewPrompt from "./getNewPrompt.mjs"
-import createNote from "./createNote.mjs"
+import createNote from "./firefish-calls/createNote.mjs"
 import makeText from "./makeText.mjs"
-import insertPublished from "./insertPublished.mjs"
+import insertPublished from "./database-calls/insertPublished.mjs"
 import logger from "./logger.mjs"
-import todaysPromptAlreadyPublished from "./todaysPromptAlreadyPublished.mjs"
+import todaysPromptAlreadyPublished from "./database-calls/todaysPromptAlreadyPublished.mjs"
 
 
 export default  async function checkAndPublish () {

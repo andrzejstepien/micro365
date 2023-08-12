@@ -1,6 +1,6 @@
-import logger from "./logger.mjs"
+import logger from "../logger.mjs"
 import { db } from "./db.mjs"
-import config from "./config.mjs"
+import config from "../config.mjs"
 
 const blocklist = db.union([
     db('bad_words').select('word'),

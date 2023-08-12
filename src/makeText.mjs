@@ -1,6 +1,6 @@
 
 import logger from "./logger.mjs"
-
+import { removeUrls } from "./utilities.mjs"
 const sampleData = {
     word: 'malt',
     count: 1520084,
@@ -47,6 +47,4 @@ export default function makeText(prompt) {
     return text + meaningsText + postScript
 }
 
-function removeUrls(string) {
-    return string.replace(/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g, '')
-}
+

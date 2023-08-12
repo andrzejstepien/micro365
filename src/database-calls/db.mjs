@@ -1,5 +1,5 @@
 import Knex from 'knex'
-import logger from './logger.mjs'
+import logger from '../logger.mjs'
 
 export const db = Knex({
     client: 'sqlite3', // or 'better-sqlite3'

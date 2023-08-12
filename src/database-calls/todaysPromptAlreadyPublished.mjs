@@ -1,5 +1,5 @@
 import { db } from "./db.mjs";
-import { isoDate } from "./utilities.mjs";
+import { isoDate } from "../utilities.mjs";
 export default async function todaysPromptAlreadyPublished() {
     const number = await db('published')
         .count('* as count')

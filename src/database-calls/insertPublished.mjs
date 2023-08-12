@@ -1,6 +1,6 @@
 import { db } from "./db.mjs"
-import { isoDate } from "./utilities.mjs"
-import logger from "./logger.mjs"
+import { isoDate } from "../utilities.mjs"
+import logger from "../logger.mjs"
 const sampleRes = {
     createdNote: {
       id: '9i8urek4jtzhmtuh',

@@ -1,5 +1,5 @@
 import logger from "./logger.mjs"
-import getAcceptablePrompts from "./getAcceptablePrompts.mjs"
+import getAcceptablePrompts from "./database-calls/getAcceptablePrompts.mjs"
 import config from "./config.mjs"
 
 export default async function getNewPrompt() {

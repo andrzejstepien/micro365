@@ -1,5 +1,5 @@
 import { apiKey } from './API.mjs'
-import logger from './logger.mjs'
+import logger from '../logger.mjs'
 //JUST FOR USE IN LOCAL ENVIRONMENT
 import { Agent, setGlobalDispatcher } from 'undici'
 const agent = new Agent({
