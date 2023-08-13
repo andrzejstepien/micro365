@@ -19,7 +19,11 @@ export default async function createNote(text) {
   }
   try {
     const response = await firefish.post("notes/create",body)
-    logger.info(response)
+    logger.info({
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data
+    })
     return response.data
   } catch (error) {
     throw error
