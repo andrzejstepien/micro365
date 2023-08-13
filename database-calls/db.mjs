@@ -1,6 +1,7 @@
 import Knex from 'knex'
 import logger from '../logger.mjs'
 import { isoDate } from "../utilities.mjs"
+import config from "../config.mjs"
 
 export const db = Knex({
   client: 'sqlite3', // or 'better-sqlite3'
@@ -9,6 +10,36 @@ export const db = Knex({
   },
   useNullAsDefault: true
 })
+const blocklist = db.union([
+  db('bad_words').select('word'),
+  db('medical_dictionary').select('word'),
+  db('published').select('word')
+])
+
+export const getAcceptablePrompts = async (word) => {
+  logger.trace("getAcceptablePrompt called")
+  try {
+    return db('dictionary')
+      .select('*')
+      .where({
+        derivative: 0,
+        scientific: 0,
+      })
+      .modify(queryBuilder=>{
+        if(word){queryBuilder.andWhere('word',word)}
+      })
+      .andWhere('count', '<', config.maxCount)
+      .andWhere('count', '>', config.minCount)
+      .andWhere('word', 'not in', blocklist)
+      .whereRaw('length(word) > 3')
+      .whereNotNull('pronunciation')
+      .orderByRaw('count desc')
+  } catch (error) {
+    logger.error("getAcceptablePrompts failed!")
+    throw error
+  }
+}
+
 
 export const getWords = async () => {
   logger.trace("getWords called")
@@ -18,24 +49,63 @@ export const getWords = async () => {
     .catch(error => { throw error })
 }
 
-export const valueExistsInTable = async (table, column, value) => {
+
+
+
+
+export const valueExistsInColumn = async (table, column, value) => {
   try {
     const number = await db(table)
       .count('* as count')
       .where(column, value)
-      return number[0].count > 0
+    return number[0].count > 0
   } catch (error) {
-    logger.error("valueExistsInTable failed!")
+    logger.error("valueExistsInColumn failed!")
     throw error
   }
-  
+
 }
 
 
 export const todaysPromptAlreadyPublished = async () => {
-  return valueExistsInTable('published', 'date', isoDate())
+  return valueExistsInColumn('published', 'date', isoDate())
 }
 
 export const wordIsAlreadyInBuffer = async (word) => {
-  return valueExistsInTable('buffer', 'word', word)
+  return valueExistsInColumn('buffer', 'word', word)
 }
+
+export const tableIsNotEmpty = async (table) => {
+  try {
+    const number = await db(table)
+      .count('* as count')
+    return number[0].count > 0
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getPromptFromBuffer = async () => {
+  logger.trace("getting prompt from buffer")
+  const oldestWordInBuffer = await db('buffer').select('word').orderBy('timestamp', 'asc').limit(1)
+  logger.info(`oldest word in buffer: ${oldestWordInBuffer[0].word}`)
+  try {
+    const prompt = await getAcceptablePrompts(oldestWordInBuffer[0].word)
+    return prompt[0]
+  } catch (error) {
+    logger.error("getPromptFromBuffer failed!")
+    throw error
+  }
+}
+
+export const deleteFromBuffer = async (word) => {
+  logger.trace(`deleteFromBuffer called for word ${word}!`)
+  try {
+    return db('buffer')
+    .where('word', word)
+    .del()
+  } catch (error) {
+    logger.error("deleteFromBuffer failed!")
+  }
+}
+
