@@ -17,7 +17,7 @@ export default function makeText(prompt) {
     const word = prompt.word
     const pronunciation = prompt.pronunciation
 
-    let text = "Today's #micro365 prompt is:\n<small><small><small># </small></small></small>$[x2 $[font.serif **" + word + "**]]\n"
+    let text = "<small><small><small># </small></small></small>$[x2 $[font.serif **" + word + "**]]\n"
         + pronunciation + "\n"
 
 

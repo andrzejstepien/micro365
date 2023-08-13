@@ -16,6 +16,7 @@ export default async function createNote(text) {
   logger.trace("createNote called")
   const body = {
     text: text,
+    cw:"Today's #micro365 prompt is:"
   }
   try {
     const response = await firefish.post("notes/create",body)
