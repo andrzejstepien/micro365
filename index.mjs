@@ -13,8 +13,10 @@ app.use(
     })
   )
 app.post('/api', (req,res) => {
-    receiveMention(req.body)
-    logger.info("webhook received:",req.body.body.note.text)
+    //receiveMention(req.body)
+    logger.info({body:req.body.body},"webhook received!")
+    //logger.info(req.body.body)
+    //logger.info("webhook received:",req.body.body.note.text)
     res.sendStatus(200)
 })
 

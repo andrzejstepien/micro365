@@ -55,7 +55,6 @@ export default async function insertPublished(res, word) {
         date: isoDate(sampleRes.createdNote.createdAt)
       })
   } catch (error) {
-    logger.trace("succesful insertion into table: published")
     throw error
   }
 

@@ -1,6 +1,6 @@
 import logger from "../logger.mjs"
-import getAcceptablePrompts from "../database-calls/getAcceptablePrompts.mjs"
 import { checkSpelling } from "spellchecker"
+import { wordIsAlreadyInBuffer, getAcceptablePrompts } from "../database-calls/db.mjs"
 
 export default async function (note) {
     const childLogger = logger.child({note})
@@ -13,9 +13,9 @@ export default async function (note) {
         const word = textArray[0]
         if(checkSpelling(word)){
             if(await getAcceptablePrompts().indexOf(word)!=-1){
-                if(/*wordIsAlreadyInBuffer*/true){
+                // if(!wordIsAlreadyInBuffer(word)){
 
-                }
+                // }
             }
         }
         
