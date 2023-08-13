@@ -4,7 +4,7 @@
   "description": "a server that delivers daily writing prompts via REST API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Andrzej Stepien",
   "license": "GPL-3.0-or-later",
