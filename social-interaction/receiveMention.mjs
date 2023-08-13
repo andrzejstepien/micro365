@@ -13,7 +13,7 @@ export default async function (note) {
         const word = textArray[0]
         if(checkSpelling(word)){
             if(await getAcceptablePrompts().indexOf(word)!=-1){
-                // if(!wordIsAlreadyInBuffer(word)){
+                if(!wordIsAlreadyInBuffer(word)){
 
                 // }
             }
