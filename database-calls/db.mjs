@@ -109,4 +109,3 @@ export const deleteFromBuffer = async (word) => {
   }
 }
 
-console.dir(await deleteFromBuffer('incapacity'))
