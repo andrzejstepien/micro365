@@ -12,12 +12,13 @@ import logger from '../logger.mjs'
 
 
 
-export default async function createNote(text) {
+export default async function createNote(text,replyId) {
   logger.trace("createNote called")
   const body = {
     text: text,
     cw:"Today's #micro365 prompt is:"
   }
+  if(replyId){body.replyId=replyId}
   try {
     const response = await firefish.post("notes/create",body)
     logger.info({

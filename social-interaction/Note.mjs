@@ -1,4 +1,5 @@
 import { isMisspelled } from "spellchecker"
+import logger from "../logger.mjs"
 const sampleNote = {
     "id": "9id213fllx9y189f",
     "createdAt": "2023-08-13T13:37:09.537Z",
@@ -79,6 +80,7 @@ const sampleNote = {
 export default class {
     constructor(raw){
         this.raw = raw
+        logger.trace({id:raw.id},"new note cosntructed!")
     }
 
 #handle = /@[a-z,A-Z,0-9]* /g
@@ -100,11 +102,15 @@ get id(){
 }
 
 get isSingleWord() {
-    return this.cleanText.match(/[a-z]+/ig).length===1 
+    return this.cleanText.match(/[a-z]+/ig)?.length===1 
 }
 
 get isRealWord(){
     return !isMisspelled(this.cleanText)
+}
+
+get author(){
+  return this.raw.user.username
 }
 
 }

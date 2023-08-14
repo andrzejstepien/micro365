@@ -7,6 +7,7 @@ export const db = Knex({
   client: 'sqlite3', // or 'better-sqlite3'
   connection: {
     filename: "data/database"
+    //filename: "data/database-testing"
   },
   useNullAsDefault: true
 })
@@ -49,7 +50,18 @@ export const getWords = async () => {
     .catch(error => { throw error })
 }
 
-
+export const insertIntoBuffer = async (word,timestamp) => {
+  try {
+    db
+    .insert({
+      word,
+      timestamp
+    })
+    .into('buffer')
+  } catch (error) {
+    throw error
+  }
+}
 
 
 
@@ -109,3 +121,12 @@ export const deleteFromBuffer = async (word) => {
   }
 }
 
+export const getDatePublished = async (word) => {
+  try {
+    return db('published')
+    .select('date')
+    .where('word',word)
+  } catch (error) {
+    throw error
+  }
+}
