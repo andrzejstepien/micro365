@@ -1,7 +1,8 @@
 import logger from "../logger.mjs"
+import { isoDate } from "../utilities.mjs"
 import Note from "./Note.mjs"
 import createNote from "../firefish-calls/createNote.mjs"
-import { getDatePublished, wordIsAlreadyInBuffer, getAcceptablePrompts, valueExistsInColumn } from "../database-calls/db.mjs"
+import { getDatePublished, wordIsAlreadyInBuffer, getAcceptablePrompts, valueExistsInColumn, insertIntoBuffer } from "../database-calls/db.mjs"
 
 export default async function handleMentions(body) {
     const note = new Note(body.note)
@@ -41,7 +42,8 @@ export default async function handleMentions(body) {
             createNote(`I'm afraid I can't do that, ${note.author}. The word you've suggested is either too common or too uncommon. Standards must be maintained!`,note.id)
             return { code: "RARITY" }      
     } else {
-        createNote(`OK!`,note.id)
+        await insertIntoBuffer(word,isoDate())
+        await createNote(`OK!`,note.id)
         return { code: "OK" }
     }
 }

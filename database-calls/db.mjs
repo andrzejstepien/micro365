@@ -52,13 +52,13 @@ export const getWords = async () => {
 
 export const insertIntoBuffer = async (word,timestamp) => {
   try {
-    db
+    return db('buffer')
     .insert({
-      word,
-      timestamp
+      word:word,
+      timestamp:timestamp
     })
-    .into('buffer')
   } catch (error) {
+    logger.error("buffer insert failed!")
     throw error
   }
 }
@@ -123,6 +123,7 @@ export const deleteFromBuffer = async (word) => {
     logger.error("deleteFromBuffer failed!")
   }
 }
+
 
 export const getDatePublished = async (word) => {
   try {

@@ -1,6 +1,5 @@
 import handleMentions from "../social-interaction/handleMention.mjs";
 import { expect } from "chai";
-import { insertIntoBuffer } from "../database-calls/db.mjs";
 const sampleBody = {
     note: {
     "id": "9id213fllx9y189f",
