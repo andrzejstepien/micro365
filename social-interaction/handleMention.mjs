@@ -1,5 +1,5 @@
 import logger from "../logger.mjs"
-import { isoDate } from "../utilities.mjs"
+import { timestamp } from "../utilities.mjs"
 import Note from "./Note.mjs"
 import createNote from "../firefish-calls/createNote.mjs"
 import { getDatePublished, wordIsAlreadyInBuffer, getAcceptablePrompts, valueExistsInColumn, insertIntoBuffer } from "../database-calls/db.mjs"
@@ -46,7 +46,7 @@ export default async function handleMentions(body) {
             createNote(`I'm afraid I can't do that, ${note.author}. The word you've suggested is either too quirky or not quirky enough. Them's the breaks.`,note.id)
             return { code: "RARITY" }      
     } else {
-        await insertIntoBuffer(word,isoDate())
+        await insertIntoBuffer(word,timestamp())
         await createNote(`OK!`,note.id)
         return { code: "OK" }
     }
