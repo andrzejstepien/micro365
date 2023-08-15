@@ -1,6 +1,6 @@
-import logger from "./logger.mjs"
-import { getAcceptablePrompts } from "./database-calls/db.mjs"
-import config from "./config.mjs"
+import logger from "../logger.mjs"
+import { getAcceptablePrompts } from "./db.mjs"
+import config from "../config.mjs"
 
 export default async function getNewPrompt() {
     logger.trace("getNewPrompt called")

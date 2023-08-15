@@ -1,4 +1,4 @@
-import getNewPrompt from "./getNewPrompt.mjs"
+import getNewPrompt from "./database-calls/getNewPrompt.mjs"
 import createNote from "./firefish-calls/createNote.mjs"
 import makeText from "./makeText.mjs"
 import insertPublished from "./database-calls/insertPublished.mjs"
@@ -12,6 +12,7 @@ export default  async function checkAndPublish () {
     if(!await todaysPromptAlreadyPublished()){
         try {            
             const prompt = await tableIsNotEmpty('buffer') ? await getPromptFromBuffer() : await getNewPrompt()
+
             logger.trace("prompt acquired successfully!")
             try {
                 const text = makeText(prompt)
