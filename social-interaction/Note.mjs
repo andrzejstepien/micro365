@@ -80,7 +80,7 @@ const sampleNote = {
 export default class {
     constructor(raw){
         this.raw = raw
-        logger.trace({id:raw.id},"new note cosntructed!")
+        logger.trace({id:raw.id},"new note constructed!")
     }
 
 #handle = /@[a-z,A-Z,0-9]* /g
@@ -111,6 +111,10 @@ get isRealWord(){
 
 get author(){
   return this.raw.user.username
+}
+
+get hasCW(){
+  return this.raw.cw===""?false:true
 }
 
 }

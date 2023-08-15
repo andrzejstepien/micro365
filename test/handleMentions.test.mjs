@@ -137,6 +137,13 @@ describe("Testing handleMentions responses", async function(){
       expect(result.code).to.equal("PUBLISHED")
       //done()
   })
+  it("9. handleMentions() returns code NOCW when cw = ''", async function(){
+    sampleBody.note.cw = ""
+    const result = await handleMentions(sampleBody)
+    expect(result.code).to.equal("NOCW")
+    //done()
+})
+
 
 
     

@@ -6,6 +6,10 @@ import { getDatePublished, wordIsAlreadyInBuffer, getAcceptablePrompts, valueExi
 
 export default async function handleMentions(body) {
     const note = new Note(body.note)
+    if(!note.hasCW){
+        createNote("Please put your prompt suggestions behind a CW. No spoilers!")
+        return {code: "NOCW"}
+    }
     if (!note.isSingleWord) {
         createNote("If you're trying to suggest a prompt, please message me a with *single word*.",note.id)
         return { code: "NOTONEWORD" }
@@ -39,7 +43,7 @@ export default async function handleMentions(body) {
             createNote(`I already used that prompt on ${datePublished}, actually!`,note.id)
             return {code: "PUBLISHED"}
         }
-            createNote(`I'm afraid I can't do that, ${note.author}. The word you've suggested is either too common or too uncommon. Standards must be maintained!`,note.id)
+            createNote(`I'm afraid I can't do that, ${note.author}. The word you've suggested is either too quirky or not quirky enough. Them's the breaks.`,note.id)
             return { code: "RARITY" }      
     } else {
         await insertIntoBuffer(word,isoDate())

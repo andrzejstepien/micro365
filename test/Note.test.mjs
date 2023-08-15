@@ -149,5 +149,14 @@ describe("Testing Note getters", function () {
     expect(N1.id).to.equal('9id213fllx9y189f')
     done()
   })
+  it("15. .hasCW should return true", function (done) {
+    expect(N1.hasCW).to.equal(true)
+    done()
+  })
+  it("16. .hasCW should return false", function (done) {
+    N1.raw.cw = ""
+    expect(N1.hasCW).to.equal(false)
+    done()
+  })
 
 })
