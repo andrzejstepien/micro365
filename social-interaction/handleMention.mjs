@@ -9,12 +9,17 @@ export default async function handleMentions(body) {
         createNote("If you're trying to suggest a prompt, please message me a with *single word*.",note.id)
         return { code: "NOTONEWORD" }
     }
-    if (!note.isRealWord) {
+    const word = note.cleanText
+    if (await valueExistsInColumn('bad_words', 'word', word)) {
+        createNote("That word is on my blocklist.",note.id)
+        return { code: "BLOCKLIST" }
+    }
+    const isRealWord = await note.isRealWord
+    if (!isRealWord) {
         createNote(`I'm afraid I can't do that, ${note.author}. That's not a 'real' word, at least as far as I'm aware! Have you checked the spelling? 
         You might just be too cool for me.`,note.id)
         return { code: "NOTREAL" }
     }
-    const word = note.cleanText
     if (await wordIsAlreadyInBuffer(word)) {
         createNote(`Believe it or not, somebody has already suggested that! Watch this space!`,note.id)
         return { code: "INBUFFER" }
@@ -26,10 +31,7 @@ export default async function handleMentions(body) {
             createNote("I'm afraid I can't use any word that appears in my medical dictionary. I know this delivers some false positives, but it was the only way to avoid accidentally triggering people!",note.id)
             return { code: "MEDICAL" }
         }
-        if (await valueExistsInColumn('bad_words', 'word', word)) {
-            createNote("That word is on my blocklist.",note.id)
-            return { code: "BLOCKLIST" }
-        }
+        
         if(await valueExistsInColumn('published','word',word)){
             let datePublished = await getDatePublished(word)
             datePublished = datePublished[0].date
