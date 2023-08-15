@@ -119,20 +119,23 @@ describe("Testing Note getters", function () {
     expect(N1.isSingleWord).to.equal(true)
     done()
   })
-  it("10. isRealWord should return true when text = 'word'", function (done) {
+  it("10. isRealWord should return true when text = 'word'", async function () {
     N1.raw.text = "word"
-    expect(N1.isRealWord).to.equal(true)
-    done()
+    const result = await N1.isRealWord
+    expect(result).to.equal(true)
+    
   })
-  it("11. isRealWord should return false when text = 'embiggensly'", function (done) {
+  it("11. isRealWord should return false when text = 'embiggensly'", async function () {
     N1.raw.text = "embiggensly"
-    expect(N1.isRealWord).to.equal(false)
-    done()
+    const result = await N1.isRealWord
+    expect(result).to.equal(false)
+    
   })
-  it("11.1 isRealWord should return false when text = 'awjfdihfeauigfieau'", function (done) {
+  it("11.1 isRealWord should return false when text = 'awjfdihfeauigfieau'", async function () {
     N1.raw.text = "awjfdihfeauigfieau"
-    expect(N1.isRealWord).to.equal(false)
-    done()
+    const result = await N1.isRealWord
+    expect(result).to.equal(false)
+    
   })
   it("12. author should return a string", function (done) {
     expect(N1.author).is.a('string')

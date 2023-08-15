@@ -1,5 +1,5 @@
-import { isMisspelled } from "spellchecker"
 import logger from "../logger.mjs"
+import { wordExistsInDictionary } from "../database-calls/db.mjs"
 const sampleNote = {
     "id": "9id213fllx9y189f",
     "createdAt": "2023-08-13T13:37:09.537Z",
@@ -106,7 +106,7 @@ get isSingleWord() {
 }
 
 get isRealWord(){
-    return !isMisspelled(this.cleanText)
+    return wordExistsInDictionary(this.cleanText)
 }
 
 get author(){
