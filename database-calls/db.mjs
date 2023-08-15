@@ -78,6 +78,9 @@ export const valueExistsInColumn = async (table, column, value) => {
 
 }
 
+export const wordExistsInDictionary = async (word) => {
+  return valueExistsInColumn('dictionary','word',word)
+}
 
 export const todaysPromptAlreadyPublished = async () => {
   return valueExistsInColumn('published', 'date', isoDate())
