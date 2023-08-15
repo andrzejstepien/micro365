@@ -10,7 +10,8 @@ const sampleData = {
     scientific: 0
 }
 
-export default function makeText(prompt) {
+export default function (prompt) {
+    
     const childLogger = logger.child({ prompt })
     childLogger.trace("makeText called")
     const meanings = JSON.parse(prompt.meanings)
