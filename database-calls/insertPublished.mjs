@@ -47,16 +47,11 @@ const sampleRes = {
 
 export default async function insertPublished(res, word) {
   logger.trace("insertPublished called")
-  try {
     return db('published')
       .insert({
         id: res.createdNote.id,
         word,
         date: isoDate(sampleRes.createdNote.createdAt)
       })
-  } catch (error) {
-    throw error
-  }
-
 }
 //console.log(await insertPublished(sampleRes,'marmalade'))

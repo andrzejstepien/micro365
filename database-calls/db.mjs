@@ -19,7 +19,6 @@ const blocklist = db.union([
 
 export const getAcceptablePrompts = async (word) => {
   logger.trace("getAcceptablePrompt called")
-  try {
     return db('dictionary')
       .select('*')
       .where({
@@ -35,10 +34,6 @@ export const getAcceptablePrompts = async (word) => {
       .whereRaw('length(word) > 3')
       .whereNotNull('pronunciation')
       .orderByRaw('count desc')
-  } catch (error) {
-    logger.error("getAcceptablePrompts failed!")
-    throw error
-  }
 }
 
 
@@ -51,31 +46,21 @@ export const getWords = async () => {
 }
 
 export const insertIntoBuffer = async (word,timestamp) => {
-  try {
     return db('buffer')
     .insert({
       word:word,
       timestamp:timestamp
     })
-  } catch (error) {
-    logger.error("buffer insert failed!")
-    throw error
-  }
 }
 
 
 
 export const valueExistsInColumn = async (table, column, value) => {
-  try {
+
     const number = await db(table)
       .count('* as count')
       .where(column, value)
     return number[0].count > 0
-  } catch (error) {
-    logger.error("valueExistsInColumn failed!")
-    throw error
-  }
-
 }
 
 export const wordExistsInDictionary = async (word) => {
@@ -91,13 +76,9 @@ export const wordIsAlreadyInBuffer = async (word) => {
 }
 
 export const tableIsNotEmpty = async (table) => {
-  try {
     const number = await db(table)
       .count('* as count')
     return number[0].count > 0
-  } catch (error) {
-    throw error
-  }
 }
 
 export const getPromptFromBuffer = async () => {
@@ -105,34 +86,21 @@ export const getPromptFromBuffer = async () => {
   const oldestWordInBuffer = await db('buffer').select('word').orderBy('timestamp', 'asc').limit(1)
   const word = oldestWordInBuffer[0].word
   if(!word){throw new Error("Requested oldest word in buffer but got an empty array! Is buffer empty?")}
-  try {
     const prompt = await getAcceptablePrompts(word)
     if(prompt.length===0){throw new Error("Prompt from buffer is not acceptable! Has it already been published? Have the acceptability criteria changed?")}
     return prompt[0]
-  } catch (error) {
-    logger.error("getPromptFromBuffer failed!")
-    throw error
-  }
 }
 
 export const deleteFromBuffer = async (word) => {
   logger.trace(`deleteFromBuffer called for word ${word}!`)
-  try {
     return db('buffer')
     .where('word', word)
     .del()
-  } catch (error) {
-    logger.error("deleteFromBuffer failed!")
-  }
 }
 
 
 export const getDatePublished = async (word) => {
-  try {
     return db('published')
     .select('date')
     .where('word',word)
-  } catch (error) {
-    throw error
-  }
 }

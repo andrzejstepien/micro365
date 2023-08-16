@@ -21,8 +21,7 @@ export default async function handleMentions(body) {
     }
     const isRealWord = await note.isRealWord
     if (!isRealWord) {
-        createNote(`I'm afraid I can't do that, ${note.author}. That's not a 'real' word, at least as far as I'm aware! Have you checked the spelling? 
-        You might just be too cool for me.`,note.id)
+        createNote(`I'm afraid I can't do that, ${note.author}. That's not a 'real' word, at least as far as I'm aware! Have you checked the spelling?`,note.id)
         return { code: "NOTREAL" }
     }
     if (await wordIsAlreadyInBuffer(word)) {
@@ -33,7 +32,7 @@ export default async function handleMentions(body) {
     unacceptable = unacceptable.length===0
     if (unacceptable) {
         if (await valueExistsInColumn('medical_dictionary', 'word', word)) {
-            createNote("I'm afraid I can't use any word that appears in my medical dictionary. I know this delivers some false positives, but it was the only way to avoid accidentally triggering people!",note.id)
+            createNote("I'm afraid I can't use any word that appears in my medical dictionary. I know this delivers some false positives, but it was the only way.",note.id)
             return { code: "MEDICAL" }
         }
         

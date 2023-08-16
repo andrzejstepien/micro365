@@ -19,7 +19,6 @@ export default async function createNote(text,replyId) {
     cw:"Today's #micro365 prompt is:"
   }
   if(replyId){body.replyId=replyId}
-  try {
     const response = await firefish.post("notes/create",body)
     logger.info({
       status: response.status,
@@ -27,9 +26,6 @@ export default async function createNote(text,replyId) {
       data: response.data
     })
     return response.data
-  } catch (error) {
-    throw error
-  }
 }
 
 

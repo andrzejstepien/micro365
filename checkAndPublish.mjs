@@ -12,8 +12,7 @@ export default  async function checkAndPublish () {
     if(!await todaysPromptAlreadyPublished()){
         try {            
             const prompt = await tableIsNotEmpty('buffer') ? await getPromptFromBuffer() : await getNewPrompt()
-
-            logger.trace("prompt acquired successfully!")
+            logger.trace({prompt:prompt},"prompt acquired successfully!")
             try {
                 const text = makeText(prompt)
                 try {
