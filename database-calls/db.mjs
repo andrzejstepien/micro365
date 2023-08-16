@@ -11,6 +11,8 @@ export const db = Knex({
   },
   useNullAsDefault: true
 })
+
+
 const blocklist = db.union([
   db('bad_words').select('word'),
   db('medical_dictionary').select('word'),
