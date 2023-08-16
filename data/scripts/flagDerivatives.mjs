@@ -1,4 +1,6 @@
-import { db, getWords } from './db.mjs'
+import { db } from '../../database-calls/db.mjs'
+import { getWords } from '../../database-calls/GETFunctions.mjs'
+
 
 //const words = getWords(db)
 const allDefinitionsAreFormOf = (meanings) => {

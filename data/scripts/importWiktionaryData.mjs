@@ -1,4 +1,4 @@
-import {db} from './db.mjs'
+import { db } from '../../database-calls/db.mjs'
 import fs from 'fs'
 
 const wiktionary = JSON.parse(fs.readFileSync('../processing/wiktionary-p3.json'))

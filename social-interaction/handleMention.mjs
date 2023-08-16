@@ -2,10 +2,12 @@ import logger from "../logger.mjs"
 import { timestamp } from "../utilities.mjs"
 import Note from "./Note.mjs"
 import createNote from "../firefish-calls/createNote.mjs"
-import { getDatePublished, wordIsAlreadyInBuffer, getAcceptablePrompts, valueExistsInColumn, insertIntoBuffer } from "../database-calls/db.mjs"
-
-export default async function handleMentions(body) {
-    const note = new Note(body.note)
+import { insertIntoBuffer } from "../database-calls/INSERTFunctions.mjs"
+import { getDatePublished } from "../database-calls/GETFunctions.mjs"
+import { valueExistsInColumn, wordIsAlreadyInBuffer } from "../database-calls/EXISTSFunctions.mjs"
+import { getAcceptablePrompts } from "../database-calls/GETFunctions.mjs"
+export default async function handleMentions(db,body) {
+    const note = new Note(db,body.note)
     if(!note.hasCW){
         createNote("Please put your prompt suggestions behind a CW. No spoilers!")
         return {code: "NOCW"}
@@ -15,7 +17,7 @@ export default async function handleMentions(body) {
         return { code: "NOTONEWORD" }
     }
     const word = note.cleanText
-    if (await valueExistsInColumn('bad_words', 'word', word)) {
+    if (await valueExistsInColumn(db, 'bad_words', 'word', word)) {
         createNote("That word is on my blocklist.",note.id)
         return { code: "BLOCKLIST" }
     }
@@ -24,20 +26,20 @@ export default async function handleMentions(body) {
         createNote(`I'm afraid I can't do that, ${note.author}. That's not a 'real' word, at least as far as I'm aware! Have you checked the spelling?`,note.id)
         return { code: "NOTREAL" }
     }
-    if (await wordIsAlreadyInBuffer(word)) {
+    if (await wordIsAlreadyInBuffer(db,word)) {
         createNote(`Believe it or not, somebody has already suggested that! Watch this space!`,note.id)
         return { code: "INBUFFER" }
     }
-    let unacceptable = await getAcceptablePrompts(word)
+    let unacceptable = await getAcceptablePrompts(db,word)
     unacceptable = unacceptable.length===0
     if (unacceptable) {
-        if (await valueExistsInColumn('medical_dictionary', 'word', word)) {
+        if (await valueExistsInColumn(db,'medical_dictionary', 'word', word)) {
             createNote("I'm afraid I can't use any word that appears in my medical dictionary. I know this delivers some false positives, but it was the only way.",note.id)
             return { code: "MEDICAL" }
         }
         
-        if(await valueExistsInColumn('published','word',word)){
-            let datePublished = await getDatePublished(word)
+        if(await valueExistsInColumn(db,'published','word',word)){
+            let datePublished = await getDatePublished(db,word)
             datePublished = datePublished[0].date
             createNote(`I already used that prompt on ${datePublished}, actually!`,note.id)
             return {code: "PUBLISHED"}
@@ -45,7 +47,7 @@ export default async function handleMentions(body) {
             createNote(`I'm afraid I can't do that, ${note.author}. The word you've suggested is either too quirky or not quirky enough. Them's the breaks.`,note.id)
             return { code: "RARITY" }      
     } else {
-        await insertIntoBuffer(word,timestamp())
+        await insertIntoBuffer(db,word,timestamp())
         await createNote(`OK!`,note.id)
         return { code: "OK" }
     }

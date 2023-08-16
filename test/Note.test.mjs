@@ -1,4 +1,5 @@
 import Note from "../social-interaction/Note.mjs";
+import { testDb as db } from "../database-calls/db.mjs";
 import { expect } from "chai";
 const sampleNote = {
   "id": "9id213fllx9y189f",
@@ -76,7 +77,7 @@ const sampleNote = {
     "renoteId": null
   }
 }
-const N1 = new Note(sampleNote)
+const N1 = new Note(db,sampleNote)
 describe("Testing Note getters", function () {
   it("1. .text returns a string", function (done) {
     expect(N1.text).to.be.a("string")

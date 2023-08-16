@@ -1,6 +1,6 @@
-import {db, getWords} from './db.mjs'
+import { db } from '../../database-calls/db.mjs'
 import { isMisspelled } from 'spellchecker'
-
+import { getWords } from '../../database-calls/GETFunctions.mjs'
 
 
 const words = await getWords(db)

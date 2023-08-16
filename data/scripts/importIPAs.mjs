@@ -1,4 +1,4 @@
-import {db} from './db.mjs'
+import { db } from '../../database-calls/db.mjs'
 import fs from 'fs'
 
 const IPAs = JSON.parse(fs.readFileSync('../IPAs_en_UK.json')).en_UK[0]

@@ -1,5 +1,10 @@
 import handleMentions from "../social-interaction/handleMention.mjs";
+import { testDb as db } from "../database-calls/db.mjs";
 import { expect } from "chai";
+import {insertPublished, insertIntoBuffer }from "../database-calls/INSERTFunctions.mjs";
+import { sampleRes } from "../database-calls/db.mjs";
+import { deleteFromPublished, deleteFromBuffer } from "../database-calls/DELETEFunctions.mjs";
+import { timestamp } from "../utilities.mjs";
 const sampleBody = {
     note: {
     "id": "9id213fllx9y189f",
@@ -84,62 +89,70 @@ describe("Testing handleMentions responses", async function(){
 
     it("1. handleMentions() returns code MEDICAL when text = '@micro365 hysterectomy'", async function(){
         sampleBody.note.text = "@micro365 hysterectomy"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("MEDICAL")
         //done()
     })
     it("2. handleMentions() returns code BLOCKLIST when text = '@micro365 knockers'", async function(){
         sampleBody.note.text = "@micro365 knockers"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("BLOCKLIST")
         //done()
     })
     it("3. handleMentions() returns code RARITY when text = '@micro365 the'", async function(){
         sampleBody.note.text = "@micro365 the"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("RARITY")
         //done()
     })
     it("4. handleMentions() returns code INBUFFER when text = '@micro365 incapacity'", async function(){
         sampleBody.note.text = "@micro365 incapacity"
-        const result = await handleMentions(sampleBody)
+        await deleteFromBuffer(db,'incapacity')
+        await insertIntoBuffer(db, 'incapacity',timestamp())
+        const result = await handleMentions(db,sampleBody)
+        await deleteFromBuffer(db,'incapacity')
         expect(result.code).to.equal("INBUFFER")
         //done()
     })
     it("5. handleMentions() returns code NOTREAL when text = '@micro365 embiggensly'", async function(){
         sampleBody.note.text = "@micro365 embiggensly"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("NOTREAL")
         //done()
     })
     it("5.1 handleMentions() returns code NOTREAL when text = '@micro365 uydwgqi'", async function(){
         sampleBody.note.text = "@micro365 uydwgqi"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("NOTREAL")
         //done()
     })
 
     it("6. handleMentions() returns code NOTONEWORD when text = '@micro365 apple banana'", async function(){
         sampleBody.note.text = "@micro365 apple apple"
-        const result = await handleMentions(sampleBody)
+        const result = await handleMentions(db,sampleBody)
         expect(result.code).to.equal("NOTONEWORD")
         //done()
     })
     it("7. handleMentions() returns code OK when text = '@micro365 howler'", async function(){
         sampleBody.note.text = "@micro365 howler"
-        const result = await handleMentions(sampleBody)
+        
+        const result = await handleMentions(db,sampleBody)
+        
         expect(result.code).to.equal("OK")
         //done()
     })
     it("8. handleMentions() returns code PUBLISHED when text = '@micro365 nudism'", async function(){
       sampleBody.note.text = "@micro365 nudism"
-      const result = await handleMentions(sampleBody)
+      await deleteFromPublished(db,'nudism')
+      await insertPublished(db,sampleRes,'nudism')
+      const result = await handleMentions(db,sampleBody)
+      await deleteFromPublished(db,'nudism')
       expect(result.code).to.equal("PUBLISHED")
       //done()
   })
   it("9. handleMentions() returns code NOCW when cw = ''", async function(){
     sampleBody.note.cw = ""
-    const result = await handleMentions(sampleBody)
+    const result = await handleMentions(db,sampleBody)
     expect(result.code).to.equal("NOCW")
     //done()
 })

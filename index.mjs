@@ -4,6 +4,7 @@ import logger from "./logger.mjs";
 import pinoHTTP from 'pino-http'
 import start from "./start.mjs";
 import handleMention from "./social-interaction/handleMention.mjs";
+import { db } from "./database-calls/db.mjs";
 const app = express()
 const port = 4000
 app.use(bodyParser.json())
@@ -15,7 +16,7 @@ app.use(
 app.post('/api', async (req,res) => {
     logger.info({body:req.body.body},"webhook received!")
     res.sendStatus(200)
-    const result = await handleMention(req.body.body)
+    const result = await handleMention(db,req.body.body)
     logger.info(`handleMention returned ${result.code}`)
 })
 
@@ -39,4 +40,4 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
   });
 
-start()
+start(db)
