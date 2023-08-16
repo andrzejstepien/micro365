@@ -19,8 +19,9 @@ export default  async function checkAndPublish () {
                     const note = await createNote(text)
                     logger.trace("createNote successful!")
                     try {
-                        await deleteFromBuffer(prompt.word)
-                        await insertPublished(note, prompt.word)
+                        let response = await deleteFromBuffer(prompt.word)
+                        if(response===0){logger.error("deleteFromBuffer failed! Are you trying to delete a word that isn't there?")}
+                        response = await insertPublished(note, prompt.word)
                         logger.trace("insertPublished successful!")
                     } catch (error) {
                         logger.error(error, 'insertPublished failed!')
