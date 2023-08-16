@@ -2,7 +2,7 @@ import Knex from 'knex'
 
 
 export const db = Knex({
-  client: 'sqlite3', // or 'better-sqlite3'
+  client: 'sqlite3', 
   connection: {
     filename: "data/database"
   },
@@ -10,7 +10,7 @@ export const db = Knex({
 })
 
 export const testDb = Knex({
-  client: 'sqlite3', // or 'better-sqlite3'
+  client: 'sqlite3', 
   connection: {
     filename: "data/database-testing"
   },

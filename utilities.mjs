@@ -1,5 +1,9 @@
-export function isoDate(date=Date.now()){
-    return new Date().toISOString().split('T')[0]
+import { DateTime } from "luxon"
+export function isoDate(date){
+    if(date){
+        return DateTime.fromISO(date).toISODate()
+    }
+    return DateTime.now().toISODate()
 }
 
 export function removeUrls(string) {
@@ -9,3 +13,6 @@ export function removeUrls(string) {
 export function timestamp(){
     return Date.now()
 }
+
+
+//console.log(isoDate('2023-08-10T15:02:35.380Z'))

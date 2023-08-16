@@ -8,7 +8,7 @@ export async function insertPublished(db, res, word) {
       .insert({
         id: res.createdNote.id,
         word,
-        date: isoDate(sampleRes.createdNote.createdAt)
+        date: isoDate()
       })
 }
 

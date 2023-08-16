@@ -1,6 +1,6 @@
 import createNote from "./firefish-calls/createNote.mjs"
 import makeText from "./makeText.mjs"
-import insertPublished from "./database-calls/INSERTFunctions.mjs"
+import {insertPublished} from "./database-calls/INSERTFunctions.mjs"
 import logger from "./logger.mjs"
 import { deleteFromBuffer } from "./database-calls/DELETEFunctions.mjs"
 import { todaysPromptAlreadyPublished, tableIsNotEmpty } from "./database-calls/EXISTSFunctions.mjs"

@@ -55,7 +55,7 @@ export const getPromptFromBuffer = async (db) => {
   const oldestWordInBuffer = await db('buffer').select('word').orderBy('timestamp', 'asc').limit(1)
   const word = oldestWordInBuffer[0].word
   if(!word){throw new Error("Requested oldest word in buffer but got an empty array! Is buffer empty?")}
-    const prompt = await getAcceptablePrompts(word)
+    const prompt = await getAcceptablePrompts(db,word)
     if(prompt.length===0){throw new Error("Prompt from buffer is not acceptable! Has it already been published? Have the acceptability criteria changed?")}
     return prompt[0]
 }
